@@ -349,9 +349,7 @@ class VrmcVrmHumanoidHumanBones extends GltfProperty {
   final Map<String, VrmcVrmHumanoidHumanBone> bones;
 
   VrmcVrmHumanoidHumanBones._(
-      this.bones,
-      Map<String, Object> extensions,
-      Object extras)
+      this.bones, Map<String, Object> extensions, Object extras)
       : super(extensions, extras);
 
   static VrmcVrmHumanoidHumanBones fromMap(
@@ -363,15 +361,13 @@ class VrmcVrmHumanoidHumanBones extends GltfProperty {
     final bones = <String, VrmcVrmHumanoidHumanBone>{};
 
     for (final name in VRMC_VRM_HUMANOID_HUMAN_BONES_MEMBERS) {
-      bones[name] = getObjectFromInnerMap(map, name, context,
-          VrmcVrmHumanoidHumanBone.fromMap,
+      bones[name] = getObjectFromInnerMap(
+          map, name, context, VrmcVrmHumanoidHumanBone.fromMap,
           req: VRMC_VRM_HUMANOID_HUMAN_BONES_REQUIRED[name]);
     }
 
-    return VrmcVrmHumanoidHumanBones._(
-        bones,
-        getExtensions(map, VrmcVrmHumanoid, context),
-        getExtras(map, context));
+    return VrmcVrmHumanoidHumanBones._(bones,
+        getExtensions(map, VrmcVrmHumanoid, context), getExtras(map, context));
   }
 
   void testHierarchy(Context context, String name) {
@@ -456,14 +452,12 @@ class VrmcVrmHumanoid extends GltfProperty {
       checkMembers(map, VRMC_VRM_HUMANOID_MEMBERS, context);
     }
 
-    final humanBonesMap = getMap(map, HUMAN_BONES, context, req: true);
-    context.path.add(HUMAN_BONES);
-    final humanBones =
-        VrmcVrmHumanoidHumanBones.fromMap(humanBonesMap, context);
-    context.path.removeLast();
-
-    return VrmcVrmHumanoid._(humanBones,
-        getExtensions(map, VrmcVrmHumanoid, context), getExtras(map, context));
+    return VrmcVrmHumanoid._(
+        getObjectFromInnerMap(
+            map, HUMAN_BONES, context, VrmcVrmHumanoidHumanBones.fromMap,
+            req: true),
+        getExtensions(map, VrmcVrmHumanoid, context),
+        getExtras(map, context));
   }
 
   @override
