@@ -795,8 +795,8 @@ class LinkError extends IssueType {
       'KHR_MATERIALS_VARIANTS_NON_UNIQUE_VARIANT',
       (args) => 'This variant is used more than once for this mesh primitive.');
 
-  static final LinkError vrmcVrmInvalidHumanoidHierarchy = LinkError._(
-      'VRMC_VRM_INVALID_HUMANOID_HIERARCHY',
+  static final LinkError vrmcVrmHumanoidInvalidHierarchy = LinkError._(
+      'VRMC_VRM_HUMANOID_INVALID_HIERARCHY',
       (args) => '${_q(args[0])} must be a descendant of ${_q(args[1])}');
 
   static final LinkError vrmcVrmExpressionsNoTargetMorph = LinkError._(

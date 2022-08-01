@@ -395,7 +395,7 @@ class VrmcVrmHumanoidHumanBones extends GltfProperty {
       }
 
       if (VRMC_VRM_HUMANOID_HUMAN_BONES_NEEDS_PARENT[name]) {
-        context.addIssue(LinkError.vrmcVrmInvalidHumanoidHierarchy,
+        context.addIssue(LinkError.vrmcVrmHumanoidInvalidHierarchy,
             name: name, args: [name, ancestorName]);
 
         return;
@@ -421,7 +421,7 @@ class VrmcVrmHumanoidHumanBones extends GltfProperty {
       }
     }
 
-    context.addIssue(LinkError.vrmcVrmInvalidHumanoidHierarchy,
+    context.addIssue(LinkError.vrmcVrmHumanoidInvalidHierarchy,
         name: name, args: [name, ancestorName]);
   }
 
