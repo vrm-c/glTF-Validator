@@ -533,6 +533,21 @@ class SemanticError extends IssueType {
               'minimum is equal to the thickness maximum.',
           Severity.Information);
 
+  static final SemanticError vrmcVrmExpressionsInvalidCustomExpression =
+      SemanticError._(
+          'VRMC_VRM_EXPRESSIONS_INVALID_CUSTOM_EXPRESSION',
+          (args) => 'The expression "${_q(args[0])}" must be defined in preset '
+              'expressions and cannot be defined in custom expressions.');
+
+  static final SemanticError vrmcVrmExpressionsInvalidExpressionOverride =
+      SemanticError._(
+          'VRMC_VRM_EXPRESSIONS_INVALID_EXPRESSION_OVERRIDE',
+          (args) =>
+              'The expression "${_q(args[0])}" has '
+              'the property ${_q(args[1])}, '
+              'which is ignored for this expression.',
+          Severity.Warning);
+
   SemanticError._(String type, ErrorFunction message,
       [Severity severity = Severity.Error])
       : super(type, message, severity);
@@ -783,6 +798,18 @@ class LinkError extends IssueType {
   static final LinkError vrmcVrmInvalidHumanoidHierarchy = LinkError._(
       'VRMC_VRM_INVALID_HUMANOID_HIERARCHY',
       (args) => '${_q(args[0])} must be a descendant of ${_q(args[1])}');
+
+  static final LinkError vrmcVrmExpressionsNoTargetMorph = LinkError._(
+      'VRMC_VRM_EXPRESSIONS_NO_TARGET_MORPH',
+      (args) => 'Node ${_q(args[0])} does not have the target morph '
+          '${_q(args[1])}.');
+
+  static final LinkError vrmcVrmExpressionsIncompatibleMaterialBindType =
+      LinkError._(
+          'VRMC_VRM_EXPRESSIONS_INCOMPATIBLE_MATERIAL_BIND_TYPE',
+          (args) => 'Material ${_q(args[0])} may not support '
+              'the material bind type "${_q(args[1])}".',
+          Severity.Warning);
 
   LinkError._(String type, ErrorFunction message,
       [Severity severity = Severity.Error])
