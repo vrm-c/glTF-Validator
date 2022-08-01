@@ -18,6 +18,8 @@ library gltf.extensions.vrmc_vrm_humanoid;
 
 import 'package:gltf/src/base/gltf_property.dart';
 
+const NODE = 'node';
+
 const List<String> VRMC_VRM_HUMANOID_HUMAN_BONE_MEMBERS = <String>[
   NODE,
 ];
@@ -37,9 +39,7 @@ class VrmcVrmHumanoidHumanBone extends GltfProperty {
       checkMembers(map, VRMC_VRM_HUMANOID_HUMAN_BONE_MEMBERS, context);
     }
 
-    final index = getIndex(map, NODE, context, req: true);
-
-    return VrmcVrmHumanoidHumanBone._(index,
+    return VrmcVrmHumanoidHumanBone._(getIndex(map, NODE, context, req: true),
         getExtensions(map, VrmcVrmHumanoid, context), getExtras(map, context));
   }
 
