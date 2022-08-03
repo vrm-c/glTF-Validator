@@ -352,27 +352,6 @@ class VrmcVrmHumanoidHumanBones extends GltfProperty {
       this.bones, Map<String, Object> extensions, Object extras)
       : super(extensions, extras);
 
-  static void validateDuplicates(
-      Map<String, VrmcVrmHumanoidHumanBone> bones, Context context) {
-    // check node index uniqueness
-    final duplicates = <int>{};
-    final foundSet = <int>{};
-    for (final bone in bones.values) {
-      final index = bone.nodeIndex;
-
-      // set.add returns true if the given item is not yet in the set,
-      // returns false if the item already exists
-      if (!foundSet.add(index)) {
-        duplicates.add(index);
-      }
-    }
-
-    if (duplicates.isNotEmpty) {
-      context.addIssue(SemanticError.vrmcVrmHumanoidHumanBonesNodeNotUnique,
-          args: [duplicates.join(', ')]);
-    }
-  }
-
   static VrmcVrmHumanoidHumanBones fromMap(
       Map<String, Object> map, Context context) {
     if (context.validate) {
@@ -391,10 +370,33 @@ class VrmcVrmHumanoidHumanBones extends GltfProperty {
       }
     }
 
-    VrmcVrmHumanoidHumanBones.validateDuplicates(bones, context);
-
     return VrmcVrmHumanoidHumanBones._(bones,
         getExtensions(map, VrmcVrmHumanoid, context), getExtras(map, context));
+  }
+
+  void validateDuplicates(Context context) {
+    // check node index uniqueness
+    final foundSet = <int>{};
+
+    bones.forEach((name, bone) {
+      context.path.add(name);
+
+      final index = bone.nodeIndex;
+
+      context.path.add(NODE);
+
+      // set.add returns true if the given item is not yet in the set,
+      // returns false if the item already exists
+      if (!foundSet.add(index)) {
+        context.addIssue(
+            LinkError.vrmcVrmHumanoidHumanBoneOverride,
+            args: [index]);
+      }
+
+      context.path.removeLast();
+
+      context.path.removeLast();
+    });
   }
 
   void validateHierarchy(Context context, String name) {
@@ -454,6 +456,8 @@ class VrmcVrmHumanoidHumanBones extends GltfProperty {
 
   @override
   void link(Gltf gltf, Context context) {
+    validateDuplicates(context);
+
     bones.forEach((name, bone) {
       bone?.link(gltf, context);
       validateHierarchy(context, name);
@@ -489,6 +493,8 @@ class VrmcVrmHumanoid extends GltfProperty {
 
   @override
   void link(Gltf gltf, Context context) {
+    context.path.add(HUMAN_BONES);
     humanBones?.link(gltf, context);
+    context.path.removeLast();
   }
 }

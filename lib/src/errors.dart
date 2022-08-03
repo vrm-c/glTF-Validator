@@ -533,12 +533,6 @@ class SemanticError extends IssueType {
               'minimum is equal to the thickness maximum.',
           Severity.Information);
 
-  static final SemanticError vrmcVrmHumanoidHumanBonesNodeNotUnique =
-      SemanticError._(
-          'VRMC_VRM_HUMANOID_HUMAN_BONES_NODE_NOT_UNIQUE',
-          (args) => 'Human bones have duplicated node entries. '
-              'Duplicated nodes: ${args[0]}');
-
   static final SemanticError vrmcVrmExpressionsInvalidCustomExpression =
       SemanticError._(
           'VRMC_VRM_EXPRESSIONS_INVALID_CUSTOM_EXPRESSION',
@@ -552,12 +546,6 @@ class SemanticError extends IssueType {
               'the property ${_q(args[1])}, '
               'which is ignored for this expression.',
           Severity.Warning);
-
-  static final SemanticError vrmcVrmFirstPersonMeshAnnotationsNodeNotUnique =
-      SemanticError._(
-          'VRMC_VRM_FIRST_PERSON_MESH_ANNOTATIONS_NODE_NOT_UNIQUE',
-          (args) => 'Mesh annotations have duplicated node entries. '
-              'Duplicated nodes: ${args[0]}');
 
   SemanticError._(String type, ErrorFunction message,
       [Severity severity = Severity.Error])
@@ -806,6 +794,11 @@ class LinkError extends IssueType {
       'KHR_MATERIALS_VARIANTS_NON_UNIQUE_VARIANT',
       (args) => 'This variant is used more than once for this mesh primitive.');
 
+  static final LinkError vrmcVrmHumanoidHumanBoneOverride =
+      LinkError._(
+          'VRMC_VRM_HUMANOID_HUMAN_BONE_OVERRIDE',
+          (args) => 'Value overrides human bone of node ${args[0]}.');
+
   static final LinkError vrmcVrmHumanoidInvalidHierarchy = LinkError._(
       'VRMC_VRM_HUMANOID_INVALID_HIERARCHY',
       (args) => '${_q(args[0])} must be a descendant of ${_q(args[1])}.');
@@ -821,6 +814,11 @@ class LinkError extends IssueType {
           (args) => 'Material ${args[0]} may not support '
               'the material bind type ${_q(args[1])}.',
           Severity.Warning);
+
+  static final LinkError vrmcVrmFirstPersonMeshAnnotationOverride =
+      LinkError._(
+          'VRMC_VRM_FIRST_PERSON_MESH_ANNOTATION_OVERRIDE',
+          (args) => 'Value overrides mesh annotation of node ${args[0]}.');
 
   LinkError._(String type, ErrorFunction message,
       [Severity severity = Severity.Error])

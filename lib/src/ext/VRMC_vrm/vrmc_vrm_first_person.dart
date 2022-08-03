@@ -17,6 +17,7 @@
 library gltf.extensions.vrmc_vrm_expressions;
 
 import 'package:gltf/src/base/gltf_property.dart';
+import 'package:gltf/src/ext/VRMC_vrm/vrmc_vrm.dart';
 
 // meshAnnotation
 // https://github.com/vrm-c/vrm-specification/blob/master/specification/VRMC_vrm-1.0-beta/schema/VRMC_vrm.firstPerson.meshAnnotation.schema.json
@@ -99,29 +100,6 @@ class VrmcVrmFirstPerson extends GltfProperty {
       this.meshAnnotations, Map<String, Object> extensions, Object extras)
       : super(extensions, extras);
 
-  static void validateDuplicates(
-      List<VrmcVrmFirstPersonMeshAnnotation> meshAnnotations, Context context) {
-    // check node index uniqueness
-    final duplicates = <int>{};
-    final foundSet = <int>{};
-    for (final meshAnnotation in meshAnnotations) {
-      final index = meshAnnotation.nodeIndex;
-
-      // set.add returns true if the given item is not yet in the set,
-      // returns false if the item already exists
-      if (!foundSet.add(index)) {
-        duplicates.add(index);
-      }
-    }
-
-    if (duplicates.isNotEmpty) {
-      context.addIssue(
-          SemanticError.vrmcVrmFirstPersonMeshAnnotationsNodeNotUnique,
-          name: MESH_ANNOTATIONS,
-          args: [duplicates.join(', ')]);
-    }
-  }
-
   static VrmcVrmFirstPerson fromMap(Map<String, Object> map, Context context) {
     if (context.validate) {
       checkMembers(map, VRMC_VRM_FIRST_PERSON_MEMBERS, context);
@@ -148,18 +126,48 @@ class VrmcVrmFirstPerson extends GltfProperty {
       context.path.removeLast();
     }
 
-    VrmcVrmFirstPerson.validateDuplicates(meshAnnotations, context);
-
     return VrmcVrmFirstPerson._(
         meshAnnotations,
         getExtensions(map, VrmcVrmFirstPerson, context),
         getExtras(map, context));
   }
 
+  void validateDuplicates(Context context) {
+    // check node index uniqueness
+    final foundSet = <int>{};
+
+    context.path.add(MESH_ANNOTATIONS);
+    for (var i = 0; i < meshAnnotations.length; i ++) {
+      context.path.add(i.toString());
+
+      final meshAnnotation = meshAnnotations[i];
+      final index = meshAnnotation.nodeIndex;
+
+      context.path.add(NODE);
+
+      // set.add returns true if the given item is not yet in the set,
+      // returns false if the item already exists
+      if (!foundSet.add(index)) {
+        context.addIssue(
+            LinkError.vrmcVrmFirstPersonMeshAnnotationOverride,
+            args: [index]);
+      }
+
+      context.path.removeLast();
+
+      context.path.removeLast();
+    }
+    context.path.removeLast();
+  }
+
   @override
   void link(Gltf gltf, Context context) {
+    validateDuplicates(context);
+
+    context.path.add(MESH_ANNOTATIONS);
     for (final meshAnnotation in meshAnnotations) {
       meshAnnotation.link(gltf, context);
     }
+    context.path.removeLast();
   }
 }
