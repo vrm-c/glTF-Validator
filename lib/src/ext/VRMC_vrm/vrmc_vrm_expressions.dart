@@ -349,17 +349,29 @@ class VrmcVrmExpressionsExpression extends GltfProperty {
 
   @override
   void link(Gltf gltf, Context context) {
-    for (final bind in morphTargetBinds) {
-      bind.link(gltf, context);
+    context.path.add(MORPH_TARGET_BINDS);
+    for (var i = 0; i < morphTargetBinds.length; i ++) {
+      context.path.add(i.toString());
+      morphTargetBinds[i].link(gltf, context);
+      context.path.removeLast();
     }
+    context.path.removeLast();
 
-    for (final bind in materialColorBinds) {
-      bind.link(gltf, context);
+    context.path.add(MATERIAL_COLOR_BINDS);
+    for (var i = 0; i < materialColorBinds.length; i ++) {
+      context.path.add(i.toString());
+      materialColorBinds[i].link(gltf, context);
+      context.path.removeLast();
     }
+    context.path.removeLast();
 
-    for (final bind in textureTransformBinds) {
-      bind.link(gltf, context);
+    context.path.add(TEXTURE_TRANSFORM_BINDS);
+    for (var i = 0; i < textureTransformBinds.length; i ++) {
+      context.path.add(i.toString());
+      textureTransformBinds[i].link(gltf, context);
+      context.path.removeLast();
     }
+    context.path.removeLast();
   }
 
   void validateOverride(String name, Context context) {
@@ -521,14 +533,22 @@ class VrmcVrmExpressions extends GltfProperty {
 
   @override
   void link(Gltf gltf, Context context) {
+    context.path.add(PRESET);
     preset.forEach((name, expression) {
+      context.path.add(name);
       expression
         ..link(gltf, context)
         ..validateOverride(name, context);
+      context.path.removeLast();
     });
+    context.path.removeLast();
 
-    for (final expression in custom.values) {
+    context.path.add(CUSTOM);
+    custom.forEach((name, expression) {
+      context.path.add(name);
       expression.link(gltf, context);
-    }
+      context.path.removeLast();
+    });
+    context.path.removeLast();
   }
 }

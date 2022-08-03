@@ -80,10 +80,21 @@ class VrmcVrm extends GltfProperty {
 
   @override
   void link(Gltf gltf, Context context) {
+    context.path.add(META);
     meta?.link(gltf, context);
+    context.path.removeLast();
+
+    context.path.add(HUMANOID);
     humanoid?.link(gltf, context);
+    context.path.removeLast();
+
+    context.path.add(EXPRESSIONS);
     expressions?.link(gltf, context);
+    context.path.removeLast();
+
+    context.path.add(FIRST_PERSON);
     firstPerson?.link(gltf, context);
+    context.path.removeLast();
   }
 }
 
