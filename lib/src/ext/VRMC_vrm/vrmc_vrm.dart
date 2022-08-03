@@ -18,6 +18,7 @@ library gltf.extensions.vrmc_vrm;
 
 import 'package:gltf/src/base/gltf_property.dart';
 import 'package:gltf/src/ext/VRMC_vrm/vrmc_vrm_expressions.dart';
+import 'package:gltf/src/ext/VRMC_vrm/vrmc_vrm_first_person.dart';
 import 'package:gltf/src/ext/VRMC_vrm/vrmc_vrm_humanoid.dart';
 import 'package:gltf/src/ext/VRMC_vrm/vrmc_vrm_meta.dart';
 import 'package:gltf/src/ext/extensions.dart';
@@ -27,12 +28,14 @@ const String SPEC_VERSION = 'specVersion';
 const String META = 'meta';
 const String HUMANOID = 'humanoid';
 const String EXPRESSIONS = 'expressions';
+const String FIRST_PERSON = 'firstPerson';
 
 const List<String> VRMC_VRM_MEMBERS = <String>[
   SPEC_VERSION,
   META,
   HUMANOID,
   EXPRESSIONS,
+  FIRST_PERSON,
 ];
 
 const String SPEC_VERSION_10_BETA = '1.0-beta';
@@ -46,9 +49,10 @@ class VrmcVrm extends GltfProperty {
   final VrmcVrmMeta meta;
   final VrmcVrmHumanoid humanoid;
   final VrmcVrmExpressions expressions;
+  final VrmcVrmFirstPerson firstPerson;
 
   VrmcVrm._(this.specVersion, this.meta, this.humanoid, this.expressions,
-      Map<String, Object> extensions, Object extras)
+      this.firstPerson, Map<String, Object> extensions, Object extras)
       : super(extensions, extras);
 
   static VrmcVrm fromMap(Map<String, Object> map, Context context) {
@@ -65,7 +69,10 @@ class VrmcVrm extends GltfProperty {
             req: true),
         getObjectFromInnerMap(map, HUMANOID, context, VrmcVrmHumanoid.fromMap,
             req: true),
-        getObjectFromInnerMap(map, EXPRESSIONS, context, VrmcVrmExpressions.fromMap,
+        getObjectFromInnerMap(
+            map, EXPRESSIONS, context, VrmcVrmExpressions.fromMap, req: false),
+        getObjectFromInnerMap(
+            map, FIRST_PERSON, context, VrmcVrmFirstPerson.fromMap,
             req: false),
         getExtensions(map, VrmcVrm, context),
         getExtras(map, context));
@@ -76,6 +83,7 @@ class VrmcVrm extends GltfProperty {
     meta?.link(gltf, context);
     humanoid?.link(gltf, context);
     expressions?.link(gltf, context);
+    firstPerson?.link(gltf, context);
   }
 }
 

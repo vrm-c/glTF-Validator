@@ -542,8 +542,7 @@ class SemanticError extends IssueType {
   static final SemanticError vrmcVrmExpressionsInvalidExpressionOverride =
       SemanticError._(
           'VRMC_VRM_EXPRESSIONS_INVALID_EXPRESSION_OVERRIDE',
-          (args) =>
-              'The expression "${_q(args[0])}" has '
+          (args) => 'The expression "${_q(args[0])}" has '
               'the property ${_q(args[1])}, '
               'which is ignored for this expression.',
           Severity.Warning);
@@ -803,6 +802,12 @@ class LinkError extends IssueType {
       'VRMC_VRM_EXPRESSIONS_NO_TARGET_MORPH',
       (args) => 'Node ${_q(args[0])} does not have the target morph '
           '${_q(args[1])}.');
+
+  static final LinkError vrmcVrmFirstPersonMeshAnnotationsNodeNotUnique =
+      LinkError._(
+          'VRMC_VRM_FIRST_PERSON_MESH_ANNOTATIONS_NODE_NOT_UNIQUE',
+          (args) => 'Mesh annotations have duplicated node entries. '
+              'Duplicated nodes: ${args[0]}');
 
   static final LinkError vrmcVrmExpressionsIncompatibleMaterialBindType =
       LinkError._(
