@@ -352,6 +352,27 @@ class VrmcVrmHumanoidHumanBones extends GltfProperty {
       this.bones, Map<String, Object> extensions, Object extras)
       : super(extensions, extras);
 
+  static void validateDuplicates(
+      Map<String, VrmcVrmHumanoidHumanBone> bones, Context context) {
+    // check node index uniqueness
+    final duplicates = <int>{};
+    final foundSet = <int>{};
+    for (final bone in bones.values) {
+      final index = bone.nodeIndex;
+
+      // set.add returns true if the given item is not yet in the set,
+      // returns false if the item already exists
+      if (!foundSet.add(index)) {
+        duplicates.add(index);
+      }
+    }
+
+    if (duplicates.isNotEmpty) {
+      context.addIssue(SemanticError.vrmcVrmHumanoidHumanBonesNodeNotUnique,
+          args: [duplicates.join(', ')]);
+    }
+  }
+
   static VrmcVrmHumanoidHumanBones fromMap(
       Map<String, Object> map, Context context) {
     if (context.validate) {
@@ -361,16 +382,22 @@ class VrmcVrmHumanoidHumanBones extends GltfProperty {
     final bones = <String, VrmcVrmHumanoidHumanBone>{};
 
     for (final name in VRMC_VRM_HUMANOID_HUMAN_BONES_MEMBERS) {
-      bones[name] = getObjectFromInnerMap(
+      final bone = getObjectFromInnerMap(
           map, name, context, VrmcVrmHumanoidHumanBone.fromMap,
           req: VRMC_VRM_HUMANOID_HUMAN_BONES_REQUIRED[name]);
+
+      if (bone != null) {
+        bones[name] = bone;
+      }
     }
+
+    VrmcVrmHumanoidHumanBones.validateDuplicates(bones, context);
 
     return VrmcVrmHumanoidHumanBones._(bones,
         getExtensions(map, VrmcVrmHumanoid, context), getExtras(map, context));
   }
 
-  void testHierarchy(Context context, String name) {
+  void validateHierarchy(Context context, String name) {
     final boneNode = bones[name]?.node;
     if (boneNode == null) {
       return;
@@ -429,7 +456,7 @@ class VrmcVrmHumanoidHumanBones extends GltfProperty {
   void link(Gltf gltf, Context context) {
     bones.forEach((name, bone) {
       bone?.link(gltf, context);
-      testHierarchy(context, name);
+      validateHierarchy(context, name);
     });
   }
 }

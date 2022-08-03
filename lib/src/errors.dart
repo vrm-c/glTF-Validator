@@ -533,6 +533,12 @@ class SemanticError extends IssueType {
               'minimum is equal to the thickness maximum.',
           Severity.Information);
 
+  static final SemanticError vrmcVrmHumanoidHumanBonesNodeNotUnique =
+      SemanticError._(
+          'VRMC_VRM_HUMANOID_HUMAN_BONES_NODE_NOT_UNIQUE',
+          (args) => 'Human bones have duplicated node entries. '
+              'Duplicated nodes: ${args[0]}');
+
   static final SemanticError vrmcVrmExpressionsInvalidCustomExpression =
       SemanticError._(
           'VRMC_VRM_EXPRESSIONS_INVALID_CUSTOM_EXPRESSION',
