@@ -536,13 +536,13 @@ class SemanticError extends IssueType {
   static final SemanticError vrmcVrmExpressionsInvalidCustomExpression =
       SemanticError._(
           'VRMC_VRM_EXPRESSIONS_INVALID_CUSTOM_EXPRESSION',
-          (args) => 'The expression "${_q(args[0])}" must be defined in preset '
+          (args) => 'The expression ${_q(args[0])} must be defined in preset '
               'expressions and cannot be defined in custom expressions.');
 
   static final SemanticError vrmcVrmExpressionsInvalidExpressionOverride =
       SemanticError._(
           'VRMC_VRM_EXPRESSIONS_INVALID_EXPRESSION_OVERRIDE',
-          (args) => 'The expression "${_q(args[0])}" has '
+          (args) => 'The expression ${_q(args[0])} has '
               'the property ${_q(args[1])}, '
               'which is ignored for this expression.',
           Severity.Warning);
@@ -796,25 +796,25 @@ class LinkError extends IssueType {
 
   static final LinkError vrmcVrmHumanoidInvalidHierarchy = LinkError._(
       'VRMC_VRM_HUMANOID_INVALID_HIERARCHY',
-      (args) => '${_q(args[0])} must be a descendant of ${_q(args[1])}');
+      (args) => '${_q(args[0])} must be a descendant of ${_q(args[1])}.');
 
   static final LinkError vrmcVrmExpressionsNoTargetMorph = LinkError._(
       'VRMC_VRM_EXPRESSIONS_NO_TARGET_MORPH',
-      (args) => 'Node ${_q(args[0])} does not have the target morph '
-          '${_q(args[1])}.');
+      (args) => 'Node ${args[0]} does not have the target morph '
+          '${args[1]}.');
+
+  static final LinkError vrmcVrmExpressionsIncompatibleMaterialBindType =
+      LinkError._(
+          'VRMC_VRM_EXPRESSIONS_INCOMPATIBLE_MATERIAL_BIND_TYPE',
+          (args) => 'Material ${args[0]} may not support '
+              'the material bind type ${_q(args[1])}.',
+          Severity.Warning);
 
   static final LinkError vrmcVrmFirstPersonMeshAnnotationsNodeNotUnique =
       LinkError._(
           'VRMC_VRM_FIRST_PERSON_MESH_ANNOTATIONS_NODE_NOT_UNIQUE',
           (args) => 'Mesh annotations have duplicated node entries. '
               'Duplicated nodes: ${args[0]}');
-
-  static final LinkError vrmcVrmExpressionsIncompatibleMaterialBindType =
-      LinkError._(
-          'VRMC_VRM_EXPRESSIONS_INCOMPATIBLE_MATERIAL_BIND_TYPE',
-          (args) => 'Material ${_q(args[0])} may not support '
-              'the material bind type "${_q(args[1])}".',
-          Severity.Warning);
 
   LinkError._(String type, ErrorFunction message,
       [Severity severity = Severity.Error])
