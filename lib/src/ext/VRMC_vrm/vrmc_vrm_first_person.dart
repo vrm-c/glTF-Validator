@@ -99,6 +99,29 @@ class VrmcVrmFirstPerson extends GltfProperty {
       this.meshAnnotations, Map<String, Object> extensions, Object extras)
       : super(extensions, extras);
 
+  static void validateDuplicates(
+      List<VrmcVrmFirstPersonMeshAnnotation> meshAnnotations, Context context) {
+    // check node index uniqueness
+    final duplicates = <int>{};
+    final foundSet = <int>{};
+    for (final meshAnnotation in meshAnnotations) {
+      final index = meshAnnotation.nodeIndex;
+
+      // set.add returns true if the given item is not yet in the set,
+      // returns false if the item already exists
+      if (!foundSet.add(index)) {
+        duplicates.add(index);
+      }
+    }
+
+    if (duplicates.isNotEmpty) {
+      context.addIssue(
+          SemanticError.vrmcVrmFirstPersonMeshAnnotationsNodeNotUnique,
+          name: MESH_ANNOTATIONS,
+          args: [duplicates.join(', ')]);
+    }
+  }
+
   static VrmcVrmFirstPerson fromMap(Map<String, Object> map, Context context) {
     if (context.validate) {
       checkMembers(map, VRMC_VRM_FIRST_PERSON_MEMBERS, context);
@@ -125,6 +148,8 @@ class VrmcVrmFirstPerson extends GltfProperty {
       context.path.removeLast();
     }
 
+    VrmcVrmFirstPerson.validateDuplicates(meshAnnotations, context);
+
     return VrmcVrmFirstPerson._(
         meshAnnotations,
         getExtensions(map, VrmcVrmFirstPerson, context),
@@ -135,24 +160,6 @@ class VrmcVrmFirstPerson extends GltfProperty {
   void link(Gltf gltf, Context context) {
     for (final meshAnnotation in meshAnnotations) {
       meshAnnotation.link(gltf, context);
-    }
-
-    // check node index uniqueness
-    final duplicates = <int>{};
-    final foundSet = <int>{};
-    for (final meshAnnotation in meshAnnotations) {
-      final index = meshAnnotation.nodeIndex;
-
-      // set.add returns true if the given item is not yet in the set,
-      //returns false if the item already exists
-      if (!foundSet.add(index)) {
-        duplicates.add(index);
-      }
-    }
-
-    if (duplicates.isNotEmpty) {
-      context.addIssue(LinkError.vrmcVrmFirstPersonMeshAnnotationsNodeNotUnique,
-          name: MESH_ANNOTATIONS, args: [duplicates.join(', ')]);
     }
   }
 }

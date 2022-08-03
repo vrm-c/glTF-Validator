@@ -553,6 +553,12 @@ class SemanticError extends IssueType {
               'which is ignored for this expression.',
           Severity.Warning);
 
+  static final SemanticError vrmcVrmFirstPersonMeshAnnotationsNodeNotUnique =
+      SemanticError._(
+          'VRMC_VRM_FIRST_PERSON_MESH_ANNOTATIONS_NODE_NOT_UNIQUE',
+          (args) => 'Mesh annotations have duplicated node entries. '
+              'Duplicated nodes: ${args[0]}');
+
   SemanticError._(String type, ErrorFunction message,
       [Severity severity = Severity.Error])
       : super(type, message, severity);
@@ -815,12 +821,6 @@ class LinkError extends IssueType {
           (args) => 'Material ${args[0]} may not support '
               'the material bind type ${_q(args[1])}.',
           Severity.Warning);
-
-  static final LinkError vrmcVrmFirstPersonMeshAnnotationsNodeNotUnique =
-      LinkError._(
-          'VRMC_VRM_FIRST_PERSON_MESH_ANNOTATIONS_NODE_NOT_UNIQUE',
-          (args) => 'Mesh annotations have duplicated node entries. '
-              'Duplicated nodes: ${args[0]}');
 
   LinkError._(String type, ErrorFunction message,
       [Severity severity = Severity.Error])
