@@ -820,6 +820,13 @@ class LinkError extends IssueType {
           'VRMC_VRM_FIRST_PERSON_MESH_ANNOTATION_OVERRIDE',
           (args) => 'Value overrides mesh annotation of node ${args[0]}.');
 
+  static final LinkError vrmcVrmLookAtTypeNoEffect =
+      LinkError._(
+          'VRMC_VRM_LOOK_AT_TYPE_NO_EFFECT',
+          (args) => 'LookAt type is ${args[0]} but there are no corresponding '
+              '${args[1]} available.',
+          Severity.Information);
+
   LinkError._(String type, ErrorFunction message,
       [Severity severity = Severity.Error])
       : super(type, message, severity);

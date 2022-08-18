@@ -20,6 +20,7 @@ import 'package:gltf/src/base/gltf_property.dart';
 import 'package:gltf/src/ext/VRMC_vrm/vrmc_vrm_expressions.dart';
 import 'package:gltf/src/ext/VRMC_vrm/vrmc_vrm_first_person.dart';
 import 'package:gltf/src/ext/VRMC_vrm/vrmc_vrm_humanoid.dart';
+import 'package:gltf/src/ext/VRMC_vrm/vrmc_vrm_look_at.dart';
 import 'package:gltf/src/ext/VRMC_vrm/vrmc_vrm_meta.dart';
 import 'package:gltf/src/ext/extensions.dart';
 
@@ -29,6 +30,7 @@ const String META = 'meta';
 const String HUMANOID = 'humanoid';
 const String EXPRESSIONS = 'expressions';
 const String FIRST_PERSON = 'firstPerson';
+const String LOOK_AT = 'lookAt';
 
 const List<String> VRMC_VRM_MEMBERS = <String>[
   SPEC_VERSION,
@@ -36,6 +38,7 @@ const List<String> VRMC_VRM_MEMBERS = <String>[
   HUMANOID,
   EXPRESSIONS,
   FIRST_PERSON,
+  LOOK_AT,
 ];
 
 const String SPEC_VERSION_10_BETA = '1.0-beta';
@@ -50,9 +53,17 @@ class VrmcVrm extends GltfProperty {
   final VrmcVrmHumanoid humanoid;
   final VrmcVrmExpressions expressions;
   final VrmcVrmFirstPerson firstPerson;
+  final VrmcVrmLookAt lookAt;
 
-  VrmcVrm._(this.specVersion, this.meta, this.humanoid, this.expressions,
-      this.firstPerson, Map<String, Object> extensions, Object extras)
+  VrmcVrm._(
+      this.specVersion,
+      this.meta,
+      this.humanoid,
+      this.expressions,
+      this.firstPerson,
+      this.lookAt,
+      Map<String, Object> extensions,
+      Object extras)
       : super(extensions, extras);
 
   static VrmcVrm fromMap(Map<String, Object> map, Context context) {
@@ -72,7 +83,8 @@ class VrmcVrm extends GltfProperty {
         getObjectFromInnerMap(
             map, EXPRESSIONS, context, VrmcVrmExpressions.fromMap, req: false),
         getObjectFromInnerMap(
-            map, FIRST_PERSON, context, VrmcVrmFirstPerson.fromMap,
+            map, FIRST_PERSON, context, VrmcVrmFirstPerson.fromMap, req: false),
+        getObjectFromInnerMap(map, LOOK_AT, context, VrmcVrmLookAt.fromMap,
             req: false),
         getExtensions(map, VrmcVrm, context),
         getExtras(map, context));
@@ -94,6 +106,10 @@ class VrmcVrm extends GltfProperty {
 
     context.path.add(FIRST_PERSON);
     firstPerson?.link(gltf, context);
+    context.path.removeLast();
+
+    context.path.add(LOOK_AT);
+    lookAt?.link(gltf, context);
     context.path.removeLast();
   }
 }
