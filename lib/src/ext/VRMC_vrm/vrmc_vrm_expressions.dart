@@ -319,14 +319,14 @@ class VrmcVrmExpressionsExpression extends GltfProperty {
       checkMembers(map, VRMC_VRM_EXPRESSIONS_EXPRESSION_MEMBERS, context);
     }
 
-    final morphTargetBinds = VrmcVrmExpressionsExpression.getObjectList<
-            VrmcVrmExpressionsMorphTargetBind>(map, MORPH_TARGET_BINDS, context,
-        VrmcVrmExpressionsMorphTargetBind.fromMap);
-    final materialColorBinds = VrmcVrmExpressionsExpression.getObjectList<
-            VrmcVrmExpressionsMaterialColorBind>(map, MATERIAL_COLOR_BINDS,
-        context, VrmcVrmExpressionsMaterialColorBind.fromMap);
-    final textureTransformBinds = VrmcVrmExpressionsExpression.getObjectList<
-            VrmcVrmExpressionsTextureTransformBind>(
+    final morphTargetBinds = VrmcVrmExpressionsExpression.getObjectList(map,
+        MORPH_TARGET_BINDS, context, VrmcVrmExpressionsMorphTargetBind.fromMap);
+    final materialColorBinds = VrmcVrmExpressionsExpression.getObjectList(
+        map,
+        MATERIAL_COLOR_BINDS,
+        context,
+        VrmcVrmExpressionsMaterialColorBind.fromMap);
+    final textureTransformBinds = VrmcVrmExpressionsExpression.getObjectList(
         map,
         TEXTURE_TRANSFORM_BINDS,
         context,
@@ -350,7 +350,7 @@ class VrmcVrmExpressionsExpression extends GltfProperty {
   @override
   void link(Gltf gltf, Context context) {
     context.path.add(MORPH_TARGET_BINDS);
-    for (var i = 0; i < morphTargetBinds.length; i ++) {
+    for (var i = 0; i < morphTargetBinds.length; i++) {
       context.path.add(i.toString());
       morphTargetBinds[i].link(gltf, context);
       context.path.removeLast();
@@ -358,7 +358,7 @@ class VrmcVrmExpressionsExpression extends GltfProperty {
     context.path.removeLast();
 
     context.path.add(MATERIAL_COLOR_BINDS);
-    for (var i = 0; i < materialColorBinds.length; i ++) {
+    for (var i = 0; i < materialColorBinds.length; i++) {
       context.path.add(i.toString());
       materialColorBinds[i].link(gltf, context);
       context.path.removeLast();
@@ -366,7 +366,7 @@ class VrmcVrmExpressionsExpression extends GltfProperty {
     context.path.removeLast();
 
     context.path.add(TEXTURE_TRANSFORM_BINDS);
-    for (var i = 0; i < textureTransformBinds.length; i ++) {
+    for (var i = 0; i < textureTransformBinds.length; i++) {
       context.path.add(i.toString());
       textureTransformBinds[i].link(gltf, context);
       context.path.removeLast();
