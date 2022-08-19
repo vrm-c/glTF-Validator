@@ -17,7 +17,6 @@
 library gltf.extensions.vrmc_vrm_expressions;
 
 import 'package:gltf/src/base/gltf_property.dart';
-import 'package:gltf/src/ext/VRMC_vrm/vrmc_vrm.dart';
 
 // meshAnnotation
 // https://github.com/vrm-c/vrm-specification/blob/master/specification/VRMC_vrm-1.0-beta/schema/VRMC_vrm.firstPerson.meshAnnotation.schema.json
@@ -165,8 +164,10 @@ class VrmcVrmFirstPerson extends GltfProperty {
     validateDuplicates(context);
 
     context.path.add(MESH_ANNOTATIONS);
-    for (final meshAnnotation in meshAnnotations) {
-      meshAnnotation.link(gltf, context);
+    for (var i = 0; i < meshAnnotations.length; i++) {
+      context.path.add(i.toString());
+      meshAnnotations[i].link(gltf, context);
+      context.path.removeLast();
     }
     context.path.removeLast();
   }
