@@ -40,7 +40,7 @@ const List<String> VRMC_SPRING_BONE_MEMBERS = <String>[
 
 const String SPEC_VERSION_10_BETA = '1.0-beta';
 
-const List<String> VRMC_VRM_SPEC_VERSIONS = <String>[
+const List<String> VRMC_SPRING_BONE_SPEC_VERSIONS = <String>[
   SPEC_VERSION_10_BETA,
 ];
 
@@ -81,7 +81,7 @@ class VrmcSpringBone extends GltfProperty {
     }
 
     final specVersion = getString(map, SPEC_VERSION, context,
-        list: VRMC_VRM_SPEC_VERSIONS, req: true);
+        list: VRMC_SPRING_BONE_SPEC_VERSIONS, req: true);
 
     final colliders = VrmcSpringBone.getObjectList(
         map, COLLIDERS, context, VrmcSpringBoneCollider.fromMap);
