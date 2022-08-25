@@ -827,6 +827,13 @@ class LinkError extends IssueType {
               '${args[1]} available.',
           Severity.Information);
 
+  static final LinkError vrmcMaterialsMtoonInvalidRenderQueueOffset =
+      LinkError._(
+          'VRMC_MATERIALS_MTOON_INVALID_RENDER_QUEUE_OFFSET',
+          (args) => 'renderQueueOffsetNumber ${args[0]} is not compatible '
+          'with ${args[1]} specified in this material: ${args[2]}.');
+
+
   LinkError._(String type, ErrorFunction message,
       [Severity severity = Severity.Error])
       : super(type, message, severity);

@@ -17,11 +17,13 @@
 library gltf.extensions.khr_texture_transform;
 
 import 'package:gltf/src/base/gltf_property.dart';
+import 'package:gltf/src/ext/VRMC_materials_mtoon/vrmc_materials_mtoon_shading_shift_texture_info.dart';
 import 'package:gltf/src/ext/extensions.dart';
 
 // EXT_texture_transform
 const String KHR_TEXTURE_TRANSFORM = 'KHR_texture_transform';
 const String OFFSET = 'offset';
+const String SCALE = 'scale';
 
 const List<String> KHR_TEXTURE_TRANSFORM_MEMBERS = <String>[
   OFFSET,
@@ -74,4 +76,6 @@ const Extension khrTextureTransformExtension =
   TextureInfo: ExtensionDescriptor(KhrTextureTransform.fromMap),
   NormalTextureInfo: ExtensionDescriptor(KhrTextureTransform.fromMap),
   OcclusionTextureInfo: ExtensionDescriptor(KhrTextureTransform.fromMap),
+  VrmcMaterialsMtoonShadingShiftTextureInfo:
+      ExtensionDescriptor(KhrTextureTransform.fromMap),
 });
