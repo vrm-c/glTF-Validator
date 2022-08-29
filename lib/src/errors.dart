@@ -533,6 +533,20 @@ class SemanticError extends IssueType {
               'minimum is equal to the thickness maximum.',
           Severity.Information);
 
+  static final SemanticError vrmcVrmExpressionsInvalidCustomExpression =
+      SemanticError._(
+          'VRMC_VRM_EXPRESSIONS_INVALID_CUSTOM_EXPRESSION',
+          (args) => 'The expression ${_q(args[0])} must be defined in preset '
+              'expressions and cannot be defined in custom expressions.');
+
+  static final SemanticError vrmcVrmExpressionsInvalidExpressionOverride =
+      SemanticError._(
+          'VRMC_VRM_EXPRESSIONS_INVALID_EXPRESSION_OVERRIDE',
+          (args) => 'The expression ${_q(args[0])} has '
+              'the property ${_q(args[1])}, '
+              'which is ignored for this expression.',
+          Severity.Warning);
+
   SemanticError._(String type, ErrorFunction message,
       [Severity severity = Severity.Error])
       : super(type, message, severity);
@@ -779,6 +793,46 @@ class LinkError extends IssueType {
   static final LinkError khrMaterialsVariantsNonUniqueVariant = LinkError._(
       'KHR_MATERIALS_VARIANTS_NON_UNIQUE_VARIANT',
       (args) => 'This variant is used more than once for this mesh primitive.');
+
+  static final LinkError vrmcVrmHumanoidHumanBoneOverride =
+      LinkError._(
+          'VRMC_VRM_HUMANOID_HUMAN_BONE_OVERRIDE',
+          (args) => 'Value overrides human bone of node ${args[0]}.');
+
+  static final LinkError vrmcVrmHumanoidInvalidHierarchy = LinkError._(
+      'VRMC_VRM_HUMANOID_INVALID_HIERARCHY',
+      (args) => '${_q(args[0])} must be a descendant of ${_q(args[1])}.');
+
+  static final LinkError vrmcVrmExpressionsNoTargetMorph = LinkError._(
+      'VRMC_VRM_EXPRESSIONS_NO_TARGET_MORPH',
+      (args) => 'Node ${args[0]} does not have the target morph '
+          '${args[1]}.');
+
+  static final LinkError vrmcVrmExpressionsIncompatibleMaterialBindType =
+      LinkError._(
+          'VRMC_VRM_EXPRESSIONS_INCOMPATIBLE_MATERIAL_BIND_TYPE',
+          (args) => 'Material ${args[0]} may not support '
+              'the material bind type ${_q(args[1])}.',
+          Severity.Warning);
+
+  static final LinkError vrmcVrmFirstPersonMeshAnnotationOverride =
+      LinkError._(
+          'VRMC_VRM_FIRST_PERSON_MESH_ANNOTATION_OVERRIDE',
+          (args) => 'Value overrides mesh annotation of node ${args[0]}.');
+
+  static final LinkError vrmcVrmLookAtTypeNoEffect =
+      LinkError._(
+          'VRMC_VRM_LOOK_AT_TYPE_NO_EFFECT',
+          (args) => 'LookAt type is ${args[0]} but there are no corresponding '
+              '${args[1]} available.',
+          Severity.Information);
+
+  static final LinkError vrmcMaterialsMtoonInvalidRenderQueueOffset =
+      LinkError._(
+          'VRMC_MATERIALS_MTOON_INVALID_RENDER_QUEUE_OFFSET',
+          (args) => 'renderQueueOffsetNumber ${args[0]} is not compatible '
+          'with ${args[1]} specified in this material: ${args[2]}.');
+
 
   LinkError._(String type, ErrorFunction message,
       [Severity severity = Severity.Error])

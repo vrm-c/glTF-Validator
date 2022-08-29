@@ -32,6 +32,10 @@ import 'package:gltf/src/ext/KHR_materials_variants/KHR_materials_variants.dart'
 import 'package:gltf/src/ext/KHR_materials_volume/khr_materials_volume.dart';
 import 'package:gltf/src/ext/KHR_mesh_quantization/khr_mesh_quantization.dart';
 import 'package:gltf/src/ext/KHR_texture_transform/khr_texture_transform.dart';
+import 'package:gltf/src/ext/VRMC_materials_mtoon/vrmc_materials_mtoon.dart';
+import 'package:gltf/src/ext/VRMC_node_constraint/vrmc_node_constraint.dart';
+import 'package:gltf/src/ext/VRMC_springBone/vrmc_spring_bone.dart';
+import 'package:gltf/src/ext/VRMC_vrm/vrmc_vrm.dart';
 import 'package:gltf/src/hash.dart';
 import 'package:meta/meta.dart';
 
@@ -111,7 +115,11 @@ const List<Extension> kDefaultExtensions = <Extension>[
   khrMaterialsVariantsExtension,
   khrMaterialsVolumeExtension,
   khrMeshQuantizationExtension,
-  khrTextureTransformExtension
+  khrTextureTransformExtension,
+  vrmcMaterialsMtoonExtension,
+  vrmcNodeConstraintExtension,
+  vrmcSpringBoneExtension,
+  vrmcVrmExtension,
 ];
 
 // https://github.com/KhronosGroup/glTF/blob/main/extensions/Prefixes.md

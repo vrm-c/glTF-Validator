@@ -109,6 +109,33 @@ int getUint(Map<String, Object> map, String name, Context context,
   return -1;
 }
 
+int getInt(Map<String, Object> map, String name, Context context,
+    {bool req = false,
+    int min = -9007199254740992, // TODO: make it a constant
+    int max = 9007199254740991, // TODO: make it a constant
+    int def = 0}) {
+  assert(min != null && max != null);
+  assert(max >= min);
+  final value = _tryFixInt(_getGuarded(map, name, _kInteger, context));
+  if (value is int) {
+    if ((value < min) || (value > max)) {
+      context
+          .addIssue(SchemaError.valueNotInRange, name: name, args: [value]);
+      return 0; // TODO: low confidence. Float uses NaN, Uint uses -1
+    }
+    return value;
+  } else if (value == null) {
+    if (!req) {
+      return def;
+    }
+    context.addIssue(SchemaError.undefinedProperty, args: [name]);
+  } else {
+    context.addIssue(SchemaError.typeMismatch,
+        name: name, args: [value, _kInteger]);
+  }
+  return -1;
+}
+
 double getFloat(Map<String, Object> map, String name, Context context,
     {bool req = false,
     double standalone = double.nan,
